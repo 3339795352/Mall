@@ -22,9 +22,9 @@ pagehelper:
 
 al:
   oss: #存储
-    endpoint: oss-cn-beijing.aliyuncs.com  # 域
-    accessKeyId: LTAI5tDfijtMizY8tmosHApD # 秘钥
-    accessKeySecret: nJMgvJwJHuhZuyAKKxGj9yOU8fMuyX # 秘钥
-    bucketName: mall-xww  # 桶名
-    url: https://mall-xww.oss-cn-beijing.aliyuncs.com  # 访问地址
+    endpoint:  # 域
+    accessKeyId:  # 秘钥
+    accessKeySecret:  # 秘钥
+    bucketName:  # 桶名
+    url:  # 访问地址
 
