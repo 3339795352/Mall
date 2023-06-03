@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mall-mapper" />
+        <module name="mall-pojo" />
+        <module name="mall-manager-ms" />
+        <module name="mall-query-ms" />
+        <module name="mall-eureka" />
+        <module name="mall-gateway" />
+        <module name="mall-content" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ads" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ads" options="-parameters" />
+      <module name="mall-content" options="-parameters" />
+      <module name="mall-eureka" options="-parameters" />
+      <module name="mall-gateway" options="-parameters" />
+      <module name="mall-manager-ms" options="-parameters" />
+      <module name="mall-mapper" options="-parameters" />
+      <module name="mall-pojo" options="-parameters" />
+      <module name="mall-query-ms" options="-parameters" />
+    </option>
+  </component>
+  <component name="TypeScriptCompiler">
+    <option name="showAllErrors" value="true" />
+  </component>
+</project>

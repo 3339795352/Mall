@@ -80,7 +80,7 @@
                         :before-upload="beforeUpload"
                         @change="handleChange"
                 >
-                    <img v-if="imageUrl" :src="imageUrl" alt="avatar" width="200px" height="200px"/>
+                    <img v-if="imageUrl" :src="imageUrl" alt="avatar"/>
                     <div v-else>
                         <loading-outlined v-if="loading"></loading-outlined>
                         <plus-outlined v-else></plus-outlined>
@@ -108,7 +108,8 @@
     import{ref,onMounted} from "vue";
     import axios from "axios";
     import {Tool} from "@/util/tool";
-    import {message} from "ant-design-vue";
+    import {message, UploadChangeParam, UploadProps} from "ant-design-vue";
+    import { PlusOutlined } from '@ant-design/icons-vue';
     export default {
         name: "admin-content",
 
@@ -121,8 +122,9 @@
             const contentCategoryList = ref();
             const fileList = ref([]);
             const imageUrl = ref<string>('');
-            const actionImg = ref('http://localhost:8899/mall-content/uploadFile');
-
+            // const actionImg = ref('http://localhost:8899/mall-upload/upload-Ms/uploadFile');
+            const actionImg = ref('http://localhost:8989/mall-content/uploadFile');
+            // const actionImg = ref('https://www.mocky.io/v2/5cc8019d300000980a055e76');
             const pagination = ref({
                 current: 1,
                 pageSize: 5,
@@ -213,10 +215,12 @@
             }
 
             const handleModelOk = () => {
-                console.log(imageUrl.value+"@@@@@@@@@@@@@")
-                content.value.pic=imageUrl.value;
+                console.log("sss"+content.value.pic);
+                console.log("111ss"+imageUrl.value)
+                imageUrl.value=content.value.pic
                 content.value.status=(checked.value?'1':'0');
-                axios.post('http://localhost:8899/mall-content/saveContent',content.value).then(response=>{
+                axios.post('/mall-content/content-Ms/saveContent',content.value).then(response=>{
+                    if(response.data.code==200){
                         modelVisible.value=false;//关闭窗口
                         message.info('操作成功');
                         //加载最新品牌列表
@@ -224,28 +228,26 @@
                             page:pagination.value.current,
                             size:pagination.value.pageSize
                         });
+                    }else {
+                        message.info('操作失败');
+                        message.error(response.data.message);
+                    }
                 })
             }
-            const handleChange = async (info: any) => {
-                Loading.value = false;
-                console.log(info);
-                const response = await info.file.response;
-                content.value.pic = response.httpUrl;
-                console.log(response.httpUrl+"@@@@@@@@@@@@");
-                if (info.file.status === 'uploading') {
+
+            const handleChange = (info:any) => {
+                if (info.file.status ==='uploading'){
                     Loading.value = true;
-                    console.log(info.fileList[0].name);
                     return;
                 }
                 if (info.file.status === 'done') {
                     Loading.value = false;
-                    const response = await info.file.response;
-                    content.value.pic = response.httpUrl;
-                    console.log(response.httpUrl+"@@@@@@@@@@@@");
+                    content.value.pic = info.file.response;
+                    console.log("info.file"+info.file.response)
+                    console.log("content.value.pic"+content.value.pic)
                 }
                 if (info.file.status === 'error') {
                     Loading.value = false;
-                    console.log('ERROR');
                     message.error('upload error');
                 }
             };
@@ -263,7 +265,7 @@
             };
 
             const findAllContentCategory = () => {
-                axios.get('http://localhost:8899/mall-content/findAllContentCategory').then(response => {
+                axios.get('http://localhost:8899/mall-content//contentlistByPage').then(response => {
                     contentCategoryList.value = response.data
                 })
             }
@@ -285,19 +287,21 @@
 
             const edit = (record: any) => {
                 modelVisible.value = true;
-                console.log(record.pic)
                 // console.log("111" + record.id)
                 // console.log("ss" + fileList.value)
                 // console.log("222"+content.value.status)
                 // console.log(fileList)
-                // imageUrl.value=record.pic
-                // record.pic=fileList.value
+                imageUrl.value=record.pic
+                console.log("record.pic"+record.pic)
+                record.pic=fileList.value
                 // imageUrl.value = record.pic;
+                console.log("ijmg"+imageUrl.value)
+                console.log(checked.value)
                 if (record.id != null) {
                     checked.value = true;
                 }
                 content.value = Tool.copy(record); //复制对象到编辑模态框
-                console.log(content.value)
+
                 handleQueryContentList({
                     page: 1,
                     size: pagination.value.pageSize
@@ -308,7 +312,6 @@
                 modelVisible.value = true;
                 //初始化品牌对象
                 fileList.value = [];
-                content.value ={};
                 // content.value.pic=''
             }
 

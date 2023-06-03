@@ -1,0 +1,30 @@
+server:
+  port: 8887
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+spring:
+  application:
+    name: 'mall-content-ms'
+  datasource:
+    username: root
+    password: root
+    url: 'jdbc:mysql://localhost:3306/pinyougoudb?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai'
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: 500MB
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+
+al:
+  oss: #存储
+    endpoint: oss-cn-beijing.aliyuncs.com  # 域
+    accessKeyId: LTAI5tDfijtMizY8tmosHApD # 秘钥
+    accessKeySecret: nJMgvJwJHuhZuyAKKxGj9yOU8fMuyX # 秘钥
+    bucketName: mall-xww  # 桶名
+    url: https://mall-xww.oss-cn-beijing.aliyuncs.com  # 访问地址
+
